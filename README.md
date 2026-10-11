@@ -116,9 +116,13 @@ install, so they need `ZSHSETUP_REQUIRE_GO`, `ZSHSETUP_REQUIRE_RUSTUP`, or `ZSHS
 their paths are set up either way. `kv` needs `ZSHSETUP_REQUIRE_KV`.
 
 The specs of pmg for `bat`, `kv`, `micro`, and `uvc` are in `packages/specs/`, all others in
-[pmg-specs](https://github.com/zshsetup/pmg-specs): `bun`, `cc` (a C compiler through zig), `curl`,
-`gawk`, `git`, `glibc`, `go`, `jq`, `make`, `micromamba`, `musl`, `musl-libs`, `patchelf`,
-`rustup`, `tzdata`, `uv`, `zig`, `zsh`, and `zstd`. pmg installs dependencies like `cc` for `rustup` or `musl-libs`
+[pmg-specs](https://github.com/zshsetup/pmg-specs): `aha`, `antigravity-cli`, `bitwarden`, `btop`,
+`bun`, `cc` (a C compiler through zig), `clang-format`, `claude-code`, `cmake`, `curl`, `dirdiff`,
+`fd`, `gawk`, `gdb`, `gh`, `ghostty-terminfo`, `git`, `git-lfs`, `glibc`, `go`, `hyperfine`,
+`iotop`, `jq`, `make`, `micromamba`, `musl`, `musl-libs`, `nano`, `nvtop`, `patchelf`, `pigz`, `pv`,
+`resvg`, `ripgrep`, `rustup`, `screen`, `shellcheck`, `speedtest`, `sqlite3`, `taplo`, `tea`,
+`tree`, `typst`, `typstyle`, `tzdata`, `uv`, `viddy`, `vim`, `xxd`, `zellij`, `zig`, `zsh`, and
+`zstd`. pmg installs dependencies like `cc` for `rustup` or `musl-libs`
 for `bun` on musl, and skips those the system already has.
 
 ## Platform Notes
