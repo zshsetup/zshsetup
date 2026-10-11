@@ -419,7 +419,8 @@ or keep it with:
   fi
 }
 
-# checks whether a terminfo entry exists, in the letter (Linux) or hex (macOS) dirs that ncurses uses
+# checks whether a terminfo entry exists, in the letter (Linux) or hex (macOS) dirs that ncurses
+# uses
 # shellcheck disable=SC2153,SC2296
 __has_terminfo() {
   local dir
@@ -497,7 +498,8 @@ __init_zshsetup_env() {
   fi
   # END HOMEBREW
 
-  # mandoc (Alpine) does not find man pages next to the bin dirs in PATH, the trailing colon keeps the defaults
+  # mandoc (Alpine) does not find man pages next to the bin dirs in PATH, the trailing colon keeps
+  # the defaults
   export MANPATH="$XDG_DATA_HOME/man:"
   # the environment and PATH entries of packages like go and rustup
   [ -f "${PMG_HOME:-$XDG_DATA_HOME/pmg}/env.sh" ] && . "${PMG_HOME:-$XDG_DATA_HOME/pmg}/env.sh"
@@ -509,7 +511,8 @@ __init_zshsetup_env() {
   # END GO
 
   # BEGIN RUST
-  # for rustup from other package managers, pmg sets RUSTUP_HOME, CARGO_HOME, and PATH in its env file
+  # for rustup from other package managers, pmg sets RUSTUP_HOME, CARGO_HOME, and PATH in its env
+  # file
   export RUSTUP_HOME="${RUSTUP_HOME:-$XDG_DATA_HOME/rustup}"
   export CARGO_HOME="${CARGO_HOME:-$XDG_DATA_HOME/cargo}"
   PATH="$CARGO_HOME/bin:/opt/homebrew/opt/rustup/bin:$PATH"
@@ -524,7 +527,7 @@ __init_zshsetup_env() {
   # END JAVASCRIPT
 
   # SETUP PATH
-  # zshsetup's own links (e.g. pmg) come first, then the bin directories of the plugins, then
+  # the links of zshsetup (e.g. pmg) come first, then the bin directories of the plugins, then
   # the commands of pmg in $XDG_BIN_HOME before those of Homebrew and the toolchains
   __plugin_paths bin
   path=("$ZSHSETUP_HOME/bin" "${reply[@]}" "$XDG_BIN_HOME" "${path[@]}")
@@ -559,7 +562,8 @@ __init_zshsetup() {
   __link_plugin_configs || return 1
 
   # BEGIN PMG
-  # pmg installs the packages, see packages/pmg; completions call it by name, so it is linked into PATH
+  # pmg installs the packages, see packages/pmg; completions call it by name, so it is linked into
+  # PATH
   __assure_link "$ZSHSETUP_HOME/bin/pmg" "$ZSHSETUP_HOME/packages/pmg" || return 1
   # the completions pmg installs, and that of pmg itself, before oh-my-zsh runs compinit
   fpath=("$XDG_DATA_HOME/zsh/site-functions" "${fpath[@]}")
@@ -623,7 +627,8 @@ __init_zshsetup() {
     local real_exe
     real_exe="$(__last_match "${PMG_HOME:-$XDG_DATA_HOME/pmg}/packages/micromamba@*/micromamba")"
     if [ -n "$real_exe" ]; then
-      # on musl, the hook calls the real binary by path, but the wrapper also patches new programs for glibc
+      # on musl, the hook calls the real binary by path, but the wrapper also patches new programs
+      # for glibc
       local hook
       hook="$(command micromamba shell hook --shell zsh)" && eval "${hook//$real_exe/$XDG_BIN_HOME/micromamba}"
     else
@@ -674,7 +679,7 @@ __init_zshsetup() {
   alias sb="sudo bat --paging=never --style=plain --tabs=4"
   # END ALIASES
 
-  # zshsetup's own links (e.g. pmg) come first, then the bin directories of the plugins, then
+  # the links of zshsetup (e.g. pmg) come first, then the bin directories of the plugins, then
   # the commands of pmg in $XDG_BIN_HOME before those of Homebrew and the toolchains
   # typeset -U only deduplicates array assignments, not PATH="...:$PATH"
   __plugin_paths bin

@@ -34,7 +34,7 @@ Python for pmg, and pmg its own CA certificates, so no system certificates are n
 This clones the repo to `~/.config/zshsetup` and links `~/.zshrc` to its `.zshrc`.
 
 To try it in a container, each image downloads `install.sh` with the tool it has, installs every
-package with pmg, and starts `zsh` from `~/.local/bin`. `GH_TOKEN` avoids GitHub's API rate limit
+package with pmg, and starts `zsh` from `~/.local/bin`. `GH_TOKEN` avoids the API rate limit of GitHub
 and needs the [GitHub CLI](https://cli.github.com):
 
 ```bash
@@ -110,7 +110,7 @@ python3 <(curl -fsSL https://gist.githubusercontent.com/muendelezaji/c14722ab66b
 
 Installed by default (besides `zsh` and `git` from the installer): `oh-my-zsh`, `curl`, `uv`,
 `uvc`, `jq`, `gawk`, `micromamba` (not on musl), `bat`, `micro`, and `tzdata`.
-Add others with `ZSHSETUP_REQUIRE_<PACKAGE>` or via a plugin's `packages` file, or skip defaults with `ZSHSETUP_DISABLE_<PACKAGE>`;
+Add others with `ZSHSETUP_REQUIRE_<PACKAGE>` or via the `packages` file of a plugin, or skip defaults with `ZSHSETUP_DISABLE_<PACKAGE>`;
 dependencies of installed packages are installed either way. `go`, `rustup`, and `bun` take long to
 install, so they need `ZSHSETUP_REQUIRE_GO`, `ZSHSETUP_REQUIRE_RUSTUP`, or `ZSHSETUP_REQUIRE_BUN`;
 their paths are set up either way. `kv` needs `ZSHSETUP_REQUIRE_KV`.
@@ -124,14 +124,14 @@ for `bun` on musl, and skips those the system already has.
 ## Platform Notes
 
 - musl (Alpine): `micromamba` is skipped, since it and all conda-forge packages need glibc.
-  With `ZSHSETUP_REQUIRE_MICROMAMBA`, it runs with conda-forge's glibc, and a wrapper
+  With `ZSHSETUP_REQUIRE_MICROMAMBA`, it runs with the glibc of conda-forge, and a wrapper
   patches new environments with `patchelf`; it also handles `micromamba run` (with `-n`/`-p`).
 - Rust links with `cc`; without one (bare Linux, macOS without developer tools), pmg installs `cc`,
   a wrapper around zig.
 - macOS without developer tools: the stubs in `/usr/bin` (`git`, `make`, `cc`, `python3`, ...) only
   offer to install them, so they count as missing and the packages are installed instead.
 - musl: Rust toolchains need `libgcc_s` and `bun` needs `libstdc++`; without them on the system,
-  the `musl-libs` package takes them from Alpine's packages, without `apk` or root. `bun` finds
+  the `musl-libs` package takes them from the packages of Alpine, without `apk` or root. `bun` finds
   them through its RUNPATH, Rust through `LD_LIBRARY_PATH`.
 - Old glibc (CentOS 7, RHEL 8): `uv` (glibc 2.28) and `bat` (2.18) use their static musl builds
   where the system cannot run the gnu builds. `kv` (2.39) uses its dynamic musl build, as it loads
@@ -170,7 +170,7 @@ Debian, Ubuntu, Rocky Linux 8), or with `--native` on the current machine with a
 `env` (settings and choices), `packages`, `choices` (apt), `lifecycle` (upgrade, uninstall),
 `shell` (a full installation from the working tree), and the slow `musl` (micromamba, Rust, bun) and
 `all` (every package through a shell start). pmg has its own tests in its repo.
-Set `PMG_GH_TOKEN` to avoid GitHub's API rate limit.
+Set `PMG_GH_TOKEN` to avoid the API rate limit of GitHub.
 
 ## License
 

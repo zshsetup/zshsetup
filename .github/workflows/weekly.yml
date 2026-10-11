@@ -1,5 +1,6 @@
 name: Weekly
-# musl (micromamba, Rust) and all (every package, on macOS without Homebrew) take long, so they run weekly
+# musl (micromamba, Rust) and all (every package, on macOS without Homebrew) take long, so they
+# run weekly
 on:
   schedule:
     - cron: "0 5 * * 1" # Monday 05:00 UTC

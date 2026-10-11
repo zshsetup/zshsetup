@@ -1,7 +1,8 @@
 #!/bin/sh
 # runs pmg from its own venv; installs the latest tag of pmg when the venv has none, or one older
 # than the minimum of install.sh, and `pmg self-upgrade` (see update_zshsetup) moves it to the
-# latest tag; ZSHSETUP_PMG replaces the tags, e.g. with a local checkout, which is installed editable
+# latest tag; ZSHSETUP_PMG replaces the tags, e.g. with a local checkout, which is installed
+# editable
 set -eu
 
 zshsetup_home="${ZSHSETUP_HOME:-$HOME/.config/zshsetup}"

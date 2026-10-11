@@ -1,5 +1,6 @@
 # shellcheck shell=sh
-# shared helpers for tests/scenarios/*.sh, which run in a fresh container (or natively with a temp HOME)
+# shared helpers for tests/scenarios/*.sh, which run in a fresh container (or natively with a temp
+# HOME)
 
 REPO="${ZSHSETUP_TEST_REPO:-/zshsetup}"
 FAILURES=0

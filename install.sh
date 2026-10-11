@@ -72,7 +72,8 @@ __which() {
 __available() {
   local cmd_path
   cmd_path="$(__which "$1")" || return 1
-  # macOS's stubs in /usr/bin (git, make, cc, ...) only offer to install the missing developer tools
+  # the stubs of macOS in /usr/bin (git, make, cc, ...) only offer to install missing developer
+  # tools
   if [ "$(uname)" = "Darwin" ] && [ "$cmd_path" -ef /usr/bin/cc ] && ! /usr/bin/xcode-select -p >/dev/null 2>&1; then
     return 1
   fi
@@ -296,7 +297,8 @@ __install_main() {
   uv="$(__which uv)"
   if [ -z "$uv" ] && __install_chosen uv "$(printf 'apk uv\nbrew uv\n')"; then
     uv="$(__which uv)"
-    # a packaged uv may be too old to download Python for the machine, e.g. 0.7 of Alpine 3.22 on arm64
+    # a packaged uv may be too old to download Python for the machine, e.g. 0.7 of Alpine 3.22 on
+    # arm64
     if [ -n "$uv" ] && [ "$(__pmg_python "$uv")" = 3.12 ] && ! "$uv" python install --quiet 3.12; then
       echo "The uv of the package manager cannot install Python 3.12, bootstrapping one" >&2
       uv=""

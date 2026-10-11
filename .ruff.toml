@@ -35,7 +35,7 @@ split-on-trailing-comma = false
 ban-relative-imports = "all"
 
 [lint.per-file-ignores]
-# Stub files for C extensions are allowed to have docstrings and overwrite __doc__, __version__, etc.
+# Stub files for C extensions may have docstrings and overwrite __doc__, __version__, etc.
 "_*.pyi" = ["PYI021", "A"]
 
 # conf.py automatically created by Sphinx

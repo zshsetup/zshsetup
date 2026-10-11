@@ -4,12 +4,13 @@
 #
 # Usage: ./tests/run_tests.sh [-i IMAGE]... [--native] [SCENARIO]...
 #
-#   -i IMAGE  container image, repeatable (default: alpine:3.22 debian:stable-slim ubuntu:24.04 rockylinux:8)
+#   -i IMAGE  container image, repeatable (default: alpine:3.22 debian:stable-slim ubuntu:24.04
+#             rockylinux:8)
 #   --native  run on this machine instead (e.g. macOS), with a temporary HOME; choices, shell, and
 #             musl expect a bare system, so they only fit containers
 #   SCENARIO  env packages choices lifecycle shell musl all (default: all but the slow musl and all)
 #
-# PMG_GH_TOKEN is passed on to avoid GitHub's API rate limit; ZSHSETUP_TEST_PACKAGES sets
+# PMG_GH_TOKEN is passed on to avoid the API rate limit of GitHub; ZSHSETUP_TEST_PACKAGES sets
 # the packages of the packages scenario.
 #
 set -euo pipefail

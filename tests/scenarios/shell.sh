@@ -1,5 +1,6 @@
 #!/bin/sh
-# full installation through .zshrc from the working tree: preinit, REQUIRE/DISABLE, failed installs, update
+# full installation through .zshrc from the working tree: preinit, REQUIRE/DISABLE, failed
+# installs, update
 . "${ZSHSETUP_TEST_REPO:-/zshsetup}/tests/lib.sh"
 setup_env
 export ZSHSETUP_CHOICE=manual

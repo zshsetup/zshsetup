@@ -1,6 +1,7 @@
 #!/bin/sh
 # musl extras through a shell start: micromamba with a user-space glibc (create, activate, run,
-# completion), Rust with zig's libgcc_s and cc, bun with musl-libs, make built with zig, and gawk (slow)
+# completion), Rust with libgcc_s and cc of zig, bun with musl-libs, make built with zig, and gawk
+# (slow)
 . "${ZSHSETUP_TEST_REPO:-/zshsetup}/tests/lib.sh"
 is_musl || skip "musl only"
 setup_zshsetup
