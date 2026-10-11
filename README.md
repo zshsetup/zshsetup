@@ -115,11 +115,11 @@ dependencies of installed packages are installed either way. `go`, `rustup`, and
 install, so they need `ZSHSETUP_REQUIRE_GO`, `ZSHSETUP_REQUIRE_RUSTUP`, or `ZSHSETUP_REQUIRE_BUN`;
 their paths are set up either way. `kv` needs `ZSHSETUP_REQUIRE_KV`.
 
-The specs of pmg for `bat`, `kv`, `micro`, and `uvc` are in `packages/specs/`, all others in
-[pmg-specs](https://github.com/zshsetup/pmg-specs): `aha`, `antigravity-cli`, `bitwarden`, `btop`,
+The specs of pmg for `kv` and `uvc` are in `packages/specs/`, all others in
+[pmg-specs](https://github.com/zshsetup/pmg-specs): `aha`, `antigravity-cli`, `bat`, `bitwarden`, `btop`,
 `bun`, `cc` (a C compiler through zig), `clang-format`, `claude-code`, `cmake`, `curl`, `dirdiff`,
 `fd`, `gawk`, `gdb`, `gh`, `ghostty-terminfo`, `git`, `git-lfs`, `glibc`, `go`, `hyperfine`,
-`iotop`, `jq`, `make`, `micromamba`, `musl`, `musl-libs`, `nano`, `nvtop`, `patchelf`, `pigz`, `pv`,
+`iotop`, `jq`, `make`, `micro`, `micromamba`, `musl`, `musl-libs`, `nano`, `nvtop`, `patchelf`, `pigz`, `pv`,
 `resvg`, `ripgrep`, `rustup`, `screen`, `shellcheck`, `speedtest`, `sqlite3`, `taplo`, `tea`,
 `tree`, `typst`, `typstyle`, `tzdata`, `uv`, `viddy`, `vim`, `xxd`, `zellij`, `zig`, `zsh`, and
 `zstd`. pmg installs dependencies like `cc` for `rustup` or `musl-libs`
