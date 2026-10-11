@@ -116,13 +116,9 @@ install, so they need `ZSHSETUP_REQUIRE_GO`, `ZSHSETUP_REQUIRE_RUSTUP`, or `ZSHS
 their paths are set up either way. `kv` needs `ZSHSETUP_REQUIRE_KV`.
 
 The specs of pmg for `kv` and `uvc` are in `packages/specs/`, all others in
-[pmg-specs](https://github.com/zshsetup/pmg-specs): `aha`, `antigravity-cli`, `bat`, `bitwarden`, `btop`,
-`bun`, `cc` (a C compiler through zig), `clang-format`, `claude-code`, `cmake`, `curl`, `dirdiff`,
-`fd`, `gawk`, `gdb`, `gh`, `ghostty-terminfo`, `git`, `git-lfs`, `glibc`, `go`, `hyperfine`,
-`iotop`, `jq`, `make`, `micro`, `micromamba`, `musl`, `musl-libs`, `nano`, `nvtop`, `patchelf`, `pigz`, `pv`,
-`resvg`, `ripgrep`, `rustup`, `screen`, `shellcheck`, `speedtest`, `sqlite3`, `taplo`, `tea`,
-`tree`, `typst`, `typstyle`, `tzdata`, `uv`, `viddy`, `vim`, `xxd`, `zellij`, `zig`, `zsh`, and
-`zstd`. pmg installs dependencies like `cc` for `rustup` or `musl-libs`
+[pmg-specs](https://github.com/zshsetup/pmg-specs). `pmg search` lists all packages with a spec
+(`pmg search 'zs*'` filters by a glob), and `pmg show <package>` prints one.
+pmg installs dependencies like `cc` for `rustup` or `musl-libs`
 for `bun` on musl, and skips those the system already has.
 
 ## Platform Notes
