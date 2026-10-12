@@ -1,10 +1,12 @@
 #:schema https://raw.githubusercontent.com/zshsetup/pmg/main/schema.json
 # uvc has no releases, so the tag is the start of the sha256 of the current script
+
 deps = ["curl", "uv"]
 bin = { uvc = "{{ asset }}" }
 check = { cmd = ["uvc", "envs"] }
 
 test = "{{ cmd }} envs"
+
 [external]
 brew = "uvc"
 

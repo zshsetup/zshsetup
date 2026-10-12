@@ -1,6 +1,7 @@
 #:schema https://raw.githubusercontent.com/zshsetup/pmg/main/schema.json
 # the gnu build needs glibc 2.39; older glibc hosts get the musl build, which runs with the musl
 # loader of pmg unless the host has one
+
 min_glibc = "2.39"
 platform_deps = { musl_x64 = ["musl"], musl_arm64 = ["musl"] }
 bin = { kv = "{{ asset }}" }
@@ -15,6 +16,7 @@ esac
 {% endif %}'''
 
 test = "{{ cmd }} --version"
+
 [external]
 brew = "kv"
 
