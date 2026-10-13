@@ -108,8 +108,8 @@ python3 <(curl -fsSL https://gist.githubusercontent.com/muendelezaji/c14722ab66b
 
 ## Packages
 
-Installed by default (besides `zsh` and `git` from the installer): `oh-my-zsh`, `curl`, `uv`,
-`uvc`, `jq`, `gawk`, `micromamba` (not on musl), `bat`, `micro`, and `tzdata`.
+Installed by default (besides `zsh` and `git` from the installer): `oh-my-zsh`, `curl`, `openssh`
+(its `ssh`, which images like Alpine lack), `uv`, `uvc`, `jq`, `gawk`, `micromamba` (not on musl), `bat`, `micro`, and `tzdata`.
 Add others with `ZSHSETUP_REQUIRE_<PACKAGE>` or via the `packages` file of a plugin, or skip defaults with `ZSHSETUP_DISABLE_<PACKAGE>`;
 dependencies of installed packages are installed either way. `go`, `rustup`, and `bun` take long to
 install, so they need `ZSHSETUP_REQUIRE_GO`, `ZSHSETUP_REQUIRE_RUSTUP`, or `ZSHSETUP_REQUIRE_BUN`;

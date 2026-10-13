@@ -8,12 +8,14 @@ if [ -e /etc/ssl/certs/ca-certificates.crt ] || [ -e /etc/ssl/cert.pem ]; then
 else
   echo "  info  no CA certificates"
 fi
-for p in ${ZSHSETUP_TEST_PACKAGES:-curl jq uv bat git uvc bun}; do
+for p in ${ZSHSETUP_TEST_PACKAGES:-curl jq uv bat git openssh uvc bun}; do
+  cmd="$p"
   case "$p" in
     uvc) arg=--help ;;
+    openssh) cmd=ssh arg=-V ;;
     *) arg=--version ;;
   esac
-  check "$p installs and runs" sh -c "pmg install '$p' && '$p' $arg"
+  check "$p installs and runs" sh -c "pmg install '$p' && '$cmd' $arg"
 done
 
 finish

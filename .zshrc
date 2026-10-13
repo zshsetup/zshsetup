@@ -140,6 +140,15 @@ __last_match() {
   ((${#matches})) && echo "${matches[-1]}"
 }
 
+# prints the command that shows a package is there, which is the name of the package unless
+# it is another one, like ssh of openssh
+__package_command() {
+  case "$1" in
+    openssh) echo ssh ;;
+    *) echo "$1" ;;
+  esac
+}
+
 # checks whether pmg installed a package, for packages without a command, like glibc
 __pmg_installed() {
   [ -n "$(__last_match "${PMG_HOME:-$XDG_DATA_HOME/pmg}/installed/$1@*.json")" ]
@@ -154,7 +163,7 @@ __wants_install() {
   package="$1"
   marker="$ZSHSETUP_HOME/failed/$package"
   disable_var="ZSHSETUP_DISABLE_${${package:u}//-/_}"
-  __available "$package" && return 1
+  __available "$(__package_command "$package")" && return 1
   [ -n "${(P)disable_var}" ] && return 1
   __pmg_installed "$package" && return 1
   # the marker holds the time of the failure
@@ -176,7 +185,7 @@ __record_install() {
   marker="$ZSHSETUP_HOME/failed/$package"
   # rehash, as zsh would otherwise keep running a command it found before
   rehash
-  if __available "$package" || __pmg_installed "$package"; then
+  if __available "$(__package_command "$package")" || __pmg_installed "$package"; then
     . "${PMG_HOME:-$XDG_DATA_HOME/pmg}/env.sh" 2>/dev/null
     rm -f "$marker"
     return 0
@@ -189,7 +198,7 @@ __record_install() {
 # installs a missing tool, warns instead of aborting, see __wants_install
 __require() {
   if ! __wants_install "$1"; then
-    __available "$1" || __pmg_installed "$1"
+    __available "$(__package_command "$1")" || __pmg_installed "$1"
     return
   fi
   __package_manager "$1"
@@ -228,7 +237,7 @@ __require_all() {
   if ((${#manual})) && ! pmg install "${manual[@]}"; then
     rehash
     for package in "${manual[@]}"; do
-      __available "$package" || __pmg_installed "$package" || pmg install "$package"
+      __available "$(__package_command "$package")" || __pmg_installed "$package" || pmg install "$package"
     done
   fi
   for package in "${missing[@]}"; do
@@ -269,7 +278,7 @@ __required_packages() {
   local -a extra
   __extra_packages
   extra=("${reply[@]}")
-  reply=(ghostty-terminfo tzdata curl git uv uvc jq gawk)
+  reply=(ghostty-terminfo tzdata curl git openssh uv uvc jq gawk)
   __wants_micromamba && reply+=(micromamba)
   reply+=("${extra[@]}" bat micro)
 }
