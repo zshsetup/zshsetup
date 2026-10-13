@@ -315,7 +315,7 @@ __install_main() {
   # pmg at its minimum tag, as git may be missing to find the latest, in the venv packages/pmg runs,
   # so the first shell need not install it again; uv checks certificates with its own, so the
   # system needs none
-  venv="$HOME/.local/share/zshsetup/pmg"
+  venv="${XDG_CACHE_HOME:-$HOME/.cache}/zshsetup/pmg"
   if [ -n "${ZSHSETUP_PMG:-}" ]; then
     source="$ZSHSETUP_PMG"
     spec="$ZSHSETUP_PMG"

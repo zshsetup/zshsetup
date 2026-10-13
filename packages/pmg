@@ -9,7 +9,7 @@ zshsetup_home="${ZSHSETUP_HOME:-$HOME/.config/zshsetup}"
 # the minimum tag of pmg, the version checks, and the bootstrap of uv
 # shellcheck source=install.sh
 ZSHSETUP_INSTALL_LIB=1 . "$zshsetup_home/install.sh"
-venv="${XDG_DATA_HOME:-$HOME/.local/share}/zshsetup/pmg"
+venv="${XDG_CACHE_HOME:-$HOME/.cache}/zshsetup/pmg"
 installed="$(cat "$venv/.source" 2>/dev/null || true)"
 
 export PMG_SPECS_DIR="${PMG_SPECS_DIR:-$zshsetup_home/packages/specs}"

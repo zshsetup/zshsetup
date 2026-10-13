@@ -19,7 +19,7 @@ rights.
 
 `install.sh` names the oldest tag of pmg that zshsetup works with, and runs pmg at that tag with
 `uvx`. `packages/pmg` installs the latest tag once into its own venv in
-`~/.local/share/zshsetup/pmg` and runs it from there. It installs the latest tag again when the
+`~/.cache/zshsetup/pmg` and runs it from there. It installs the latest tag again when the
 installed one is older than that minimum, and with `pmg self-upgrade`, which `update_zshsetup`
 runs, so a new release of pmg needs no change here. Without a `uv` in `PATH`, both download a fixed uv into `~/.cache/zshsetup/uv` with any of the tools above and check
 its SHA-256: the gnu build on glibc 2.28 or newer, else the static musl build. uv brings the
