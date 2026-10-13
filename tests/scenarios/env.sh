@@ -43,6 +43,7 @@ require_all() { # env assignments, then runs __require_all of .zshrc for fake-a,
   env PATH="$fake:$PATH" ZSHSETUP_CHOICE=manual "$@" zsh -c "$(zshrc_function __eprint)
 $(install_functions)
 $(zshrc_function __last_match)
+$(zshrc_function __package_command)
 $(zshrc_function __pmg_installed)
 $(zshrc_function __choose_manager)
 $(zshrc_function __wants_install)
