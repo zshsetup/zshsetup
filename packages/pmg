@@ -14,6 +14,18 @@ installed="$(cat "$venv/.source" 2>/dev/null || true)"
 
 export PMG_SPECS_DIR="${PMG_SPECS_DIR:-$zshsetup_home/packages/specs}"
 
+# GitHub token for the API rate limit, only for the subcommands that download
+if [ -z "${PMG_GH_TOKEN:-}${GH_TOKEN:-}${GITHUB_TOKEN:-}" ]; then
+  case "${1:-}" in
+  install | upgrade | update | self-upgrade)
+    if command -v gh >/dev/null 2>&1; then
+      PMG_GH_TOKEN="$(gh auth token 2>/dev/null || true)"
+      export PMG_GH_TOKEN
+    fi
+    ;;
+  esac
+fi
+
 # the fast path: the venv has ZSHSETUP_PMG, or a tag not older than the minimum, and its python
 # still exists; python -m pmg, as the pmg script of uv needs a realpath with --, which BusyBox
 # (Alpine) lacks
