@@ -341,6 +341,32 @@ __source() {
   eval "$env"
 }
 
+# offers to install Homebrew on macOS, skipping if installed, disabled, without a terminal, or
+# declined or failed within a day
+__install_homebrew() {
+  local marker failed_at answer
+  [[ "$OSTYPE" == darwin* ]] || return 0
+  [ -f /opt/homebrew/bin/brew ] && return 0
+  [ -n "${ZSHSETUP_DISABLE_HOMEBREW:-}" ] && return 0
+  [ "${ZSHSETUP_CHOICE:-}" = manual ] && return 0
+  { : </dev/tty; } 2>/dev/null || return 0
+  marker="$ZSHSETUP_HOME/failed/homebrew"
+  if [ -f "$marker" ]; then
+    failed_at="$(<"$marker")"
+    case "$failed_at" in
+      "" | *[!0-9]*) failed_at=0 ;;
+    esac
+    ((EPOCHSECONDS - failed_at < 86400)) && return 0
+  fi
+  printf 'Install Homebrew? [y/N] ' >/dev/tty
+  read -r answer </dev/tty || return 0
+  if [[ "$answer" != [yY]* ]] || ! /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
+    mkdir -p "$ZSHSETUP_HOME/failed"
+    echo "$EPOCHSECONDS" >"$marker"
+    return 0
+  fi
+}
+
 # sets reply to the existing <name> of each plugin in plugins/, e.g. bin or preinit.sh
 __plugin_paths() {
   setopt localoptions nullglob
@@ -500,6 +526,7 @@ __init_zshsetup_env() {
   PATH="$HOME/bin:$PATH"
 
   # BEGIN HOMEBREW
+  __install_homebrew
   # before oh-my-zsh, whose compinit only sees the site-functions of Homebrew already in fpath
   if [ -f "/opt/homebrew/bin/brew" ]; then
     __source /opt/homebrew/bin/brew shellenv || return 1
