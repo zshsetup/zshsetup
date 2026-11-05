@@ -98,6 +98,11 @@ EOF
     update_theme
     command ssh -o SendEnv=LC_THEME "$@"
   }
+
+  ssj() {
+    update_theme
+    command ssj "$@" # LC_* or LC_THEME must be in ~/.ssh/config or client.toml
+  }
 }
 
 __init_theme_viewer
