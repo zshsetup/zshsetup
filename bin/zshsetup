@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+# shellcheck shell=bash
+# the commands of zshsetup: install clones and sets it up, update pulls it and upgrades its
+# packages, upgrade only upgrades the packages after a pull
+# loads the functions of .zshrc without running its setup of a shell, as install.sh does
+
+ZSHSETUP_LIB=1 . "${0:A:h}/../.zshrc" || exit 1
+
+case "${1:-}" in
+  install)
+    __install_zshsetup
+    ;;
+  update)
+    update_zshsetup
+    ;;
+  upgrade)
+    __upgrade_zshsetup
+    ;;
+  *)
+    __eprint "Usage: zshsetup <install|update|upgrade>"
+    ;;
+esac
+exit "$?"

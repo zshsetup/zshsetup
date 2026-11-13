@@ -24,5 +24,6 @@ versions/
 preinit.zsh
 postinit.zsh
 failed/
-/bin/
+/bin/*
+!/bin/zshsetup
 /plugins/

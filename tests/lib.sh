@@ -65,7 +65,7 @@ setup_env() {
 # copies the working tree to $1 (the files an install clones)
 copy_tree() {
   mkdir -p "$1"
-  (cd "$REPO" && tar -cf - .gitignore .zshrc install.sh custom_functions.sh theme_viewer.sh packages) \
+  (cd "$REPO" && tar -cf - .gitignore .zshrc .zshenv bin/zshsetup install.sh custom_functions.sh theme_viewer.sh packages) \
     | tar -xf - -C "$1"
 }
 

@@ -25,7 +25,7 @@ export ZSHSETUP_REPO="$src" ZSHSETUP_REQUIRE_PATCHELF=1 ZSHSETUP_REQUIRE_KV=1 \
   ZSHSETUP_DISABLE_MICROMAMBA=1 ZSHSETUP_DISABLE_GAWK=1
 unset ZSHSETUP_HOME
 home="$HOME/.config/zshsetup"
-check "zsh .zshrc install succeeds" zsh "$src/.zshrc" install
+check "zshsetup install succeeds" zsh "$src/bin/zshsetup" install
 cp /tmp/check.log /tmp/install-zshrc.log
 
 check "\$HOME/.zshrc links to the installed .zshrc" test "$(readlink "$HOME/.zshrc")" = "$home/.zshrc"
@@ -77,7 +77,7 @@ mv "$src/.zshrc.new" "$src/.zshrc"
 git -C "$src" -c user.name=test -c user.email=test@test commit -q -am "upgrade marker"
 
 # shellcheck disable=SC2086
-check "zsh ~/.zshrc update succeeds" env -i $clean_env zsh "$HOME/.zshrc" update
+check "zshsetup update succeeds" env -i $clean_env zsh "$ZSHSETUP_HOME/bin/zshsetup" update
 check "update removes the failed markers" test ! -e "$home/failed"
 check "update upgrades with the pulled .zshrc" test -e /tmp/upgraded-by-pulled-zshrc
 

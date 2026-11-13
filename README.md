@@ -32,6 +32,8 @@ Python for pmg, and pmg its own CA certificates, so no system certificates are n
 ```
 
 This clones the repo to `~/.config/zshsetup` and links `~/.zshrc` to its `.zshrc`.
+The install runs `bin/zshsetup install`, which also takes `update` and `upgrade`. `update_zshsetup`
+in a shell does the same as `update`.
 
 To try it in a container, each image downloads `install.sh` with the tool it has, installs every
 package with pmg, and starts `zsh` from `~/.local/bin`. `GH_TOKEN` avoids the API rate limit of GitHub

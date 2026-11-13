@@ -1,6 +1,6 @@
 #!/bin/sh
 # shellcheck shell=sh disable=SC3043
-# installs zshsetup: bootstraps uv, installs zsh and git where missing, then runs .zshrc
+# installs zshsetup: bootstraps uv, installs zsh and git where missing, then runs bin/zshsetup
 # with ZSHSETUP_INSTALL_LIB set, sourcing it only defines the functions .zshrc and packages/pmg
 # share; zsh sources it with emulate sh, so they keep the semantics of sh
 
@@ -278,7 +278,7 @@ EOF
 }
 
 __install_main() {
-  local uv venv installed source spec zshrc rc
+  local uv venv installed source spec rc
   if [ -z "$HOME" ]; then
     echo "HOME must be set"
     exit 1
@@ -351,19 +351,23 @@ __install_main() {
     exit 1
   fi
 
-  # runs .zshrc only when fully downloaded, with the certificates of certifi, a dependency of pmg
-  zshrc="$(mktemp)"
-  if ! "$venv/bin/python" -c 'import shutil, ssl, sys, urllib.request, certifi
+  # runs bin/zshsetup only when fully downloaded, with the .zshrc and .zshenv it reads next to its
+  # directory, and the certificates of certifi, a dependency of pmg
+  zshrc_dir="$(mktemp -d)"
+  mkdir "$zshrc_dir/bin"
+  for file in .zshrc .zshenv bin/zshsetup; do
+    if ! "$venv/bin/python" -c 'import shutil, ssl, sys, urllib.request, certifi
 context = ssl.create_default_context(cafile=certifi.where())
 shutil.copyfileobj(urllib.request.urlopen(sys.argv[1], context=context), sys.stdout.buffer)' \
-    https://github.com/zshsetup/zshsetup/raw/refs/heads/main/.zshrc >"$zshrc"; then
-    rm -f "$zshrc"
-    echo "Failed to download .zshrc" >&2
-    exit 1
-  fi
-  zsh "$zshrc" install
+      "https://github.com/zshsetup/zshsetup/raw/refs/heads/main/$file" >"$zshrc_dir/$file"; then
+      rm -rf "$zshrc_dir"
+      echo "Failed to download $file" >&2
+      exit 1
+    fi
+  done
+  zsh "$zshrc_dir/bin/zshsetup" install
   rc=$?
-  rm -f "$zshrc"
+  rm -rf "$zshrc_dir"
   exit "$rc"
 }
 
