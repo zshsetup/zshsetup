@@ -499,9 +499,19 @@ __plugin_paths() {
   return 0
 }
 
-# pulls a git clone without asking for credentials, so it can also run in the background
+# loads the submodules of a clone that a pull added or moved to another commit, without asking for
+# credentials
+__update_submodules() {
+  [[ -f "$1/.gitmodules" ]] || return 0
+  GIT_TERMINAL_PROMPT=0 GIT_SSH_COMMAND="ssh -o BatchMode=yes" \
+    git -C "$1" submodule update --init --recursive -q
+}
+
+# pulls a git clone and its submodules without asking for credentials, so it can also run in the
+# background
 __pull_quietly() {
-  GIT_TERMINAL_PROMPT=0 GIT_SSH_COMMAND="ssh -o BatchMode=yes" git -C "$1" pull -q --ff-only
+  GIT_TERMINAL_PROMPT=0 GIT_SSH_COMMAND="ssh -o BatchMode=yes" git -C "$1" pull -q --ff-only \
+    && __update_submodules "$1"
 }
 
 # pulls the plugins that are git clones, e.g. of private repositories
@@ -843,6 +853,7 @@ update_zshsetup() {
     git fetch || __eprint "Failed to fetch new data from $ZSHSETUP_REPO"
     git merge || __eprint "Failed to merge updates"
   )
+  __update_submodules "$ZSHSETUP_HOME" || __eprint "Failed to update the submodules"
   __pull_plugins
   # the pulled script upgrades, as the functions of this shell may be from before the pull
   zsh "$ZSHSETUP_HOME/bin/zshsetup" upgrade
