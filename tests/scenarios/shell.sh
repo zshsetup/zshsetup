@@ -77,7 +77,7 @@ mv "$src/.zshrc.new" "$src/.zshrc"
 git -C "$src" -c user.name=test -c user.email=test@test commit -q -am "upgrade marker"
 
 # shellcheck disable=SC2086
-check "zshsetup update succeeds" env -i $clean_env zsh "$ZSHSETUP_HOME/bin/zshsetup" update
+check "zshsetup update succeeds" env -i $clean_env zsh "$home/bin/zshsetup" update
 check "update removes the failed markers" test ! -e "$home/failed"
 check "update upgrades with the pulled .zshrc" test -e /tmp/upgraded-by-pulled-zshrc
 

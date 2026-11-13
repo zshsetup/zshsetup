@@ -215,23 +215,27 @@ check "__link_startup_files backs up a hand-written .zshenv" grep -q hand-writte
 check "__link_startup_files keeps the link of .zshrc" test "$(readlink "$startup_home/home/.zshrc")" = "$startup_home/zshsetup/.zshrc"
 
 # __pull_quietly loads a submodule that the pull added, which git pull alone leaves out
-sub_home="$(mktemp -d)"
-git_test() { git -c user.name=test -c user.email=test@example.com -c init.defaultBranch=main "$@"; }
-git_test init -q "$sub_home/sub"
-echo content >"$sub_home/sub/file"
-git_test -C "$sub_home/sub" add file
-git_test -C "$sub_home/sub" commit -q -m sub
-git_test init -q "$sub_home/upstream"
-git_test -C "$sub_home/upstream" commit -q --allow-empty -m first
-git_test clone -q "$sub_home/upstream" "$sub_home/plugin"
-# a local path as the URL of the submodule needs the file protocol
-git_test -c protocol.file.allow=always -C "$sub_home/upstream" submodule add -q "$sub_home/sub" mod
-git_test -C "$sub_home/upstream" commit -q -m "add submodule"
-env GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=protocol.file.allow GIT_CONFIG_VALUE_0=always \
-  zsh -c "$(zshrc_function __update_submodules)
-$(zshrc_function __pull_quietly)
-__pull_quietly '$sub_home/plugin'" >/dev/null 2>&1
-check "__pull_quietly loads a submodule that the pull added" test -f "$sub_home/plugin/mod/file"
+if command -v git >/dev/null 2>&1; then
+  sub_home="$(mktemp -d)"
+  git_test() { git -c user.name=test -c user.email=test@example.com -c init.defaultBranch=main "$@"; }
+  git_test init -q "$sub_home/sub"
+  echo content >"$sub_home/sub/file"
+  git_test -C "$sub_home/sub" add file
+  git_test -C "$sub_home/sub" commit -q -m sub
+  git_test init -q "$sub_home/upstream"
+  git_test -C "$sub_home/upstream" commit -q --allow-empty -m first
+  git_test clone -q "$sub_home/upstream" "$sub_home/plugin"
+  # a local path as the URL of the submodule needs the file protocol
+  git_test -c protocol.file.allow=always -C "$sub_home/upstream" submodule add -q "$sub_home/sub" mod
+  git_test -C "$sub_home/upstream" commit -q -m "add submodule"
+  env GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=protocol.file.allow GIT_CONFIG_VALUE_0=always \
+    zsh -c "$(zshrc_function __update_submodules)
+  $(zshrc_function __pull_quietly)
+  __pull_quietly '$sub_home/plugin'" >/dev/null 2>&1
+  check "__pull_quietly loads a submodule that the pull added" test -f "$sub_home/plugin/mod/file"
+else
+  echo "  skip  __pull_quietly loads a submodule (no git)"
+fi
 
 # __link_plugin_configs links config/ entries of plugins to XDG_CONFIG_HOME
 plugin_config_dir="$test_link_dir/plugins/test-plugin/config"
