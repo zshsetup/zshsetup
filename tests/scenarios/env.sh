@@ -200,6 +200,20 @@ $(zshrc_function __assure_link)
 __assure_link '$link_file' '$target_file'" 2>&1 || true)"
 check "__assure_link fails if backup already exists" contains "$fail_out" "already exists"
 
+# __link_startup_files links .zshenv next to .zshrc, also for an existing install without it
+startup_home="$(mktemp -d)"
+mkdir -p "$startup_home/home" "$startup_home/zshsetup"
+touch "$startup_home/zshsetup/.zshrc" "$startup_home/zshsetup/.zshenv"
+ln -s "$startup_home/zshsetup/.zshrc" "$startup_home/home/.zshrc"
+echo "hand-written" >"$startup_home/home/.zshenv"
+env HOME="$startup_home/home" ZSHSETUP_HOME="$startup_home/zshsetup" zsh -c "$(zshrc_function __eprint)
+$(zshrc_function __assure_link)
+$(zshrc_function __link_startup_files)
+__link_startup_files" >/dev/null 2>&1
+check "__link_startup_files links .zshenv" test "$(readlink "$startup_home/home/.zshenv")" = "$startup_home/zshsetup/.zshenv"
+check "__link_startup_files backs up a hand-written .zshenv" grep -q hand-written "$startup_home/home/.zshenv.pre-zshsetup"
+check "__link_startup_files keeps the link of .zshrc" test "$(readlink "$startup_home/home/.zshrc")" = "$startup_home/zshsetup/.zshrc"
+
 # __link_plugin_configs links config/ entries of plugins to XDG_CONFIG_HOME
 plugin_config_dir="$test_link_dir/plugins/test-plugin/config"
 mkdir -p "$plugin_config_dir/app1" "$plugin_config_dir/app2"

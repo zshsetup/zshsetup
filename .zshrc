@@ -855,6 +855,8 @@ update_zshsetup() {
 # upgrades the packages of pmg and oh-my-zsh, after update_zshsetup pulled
 __upgrade_zshsetup() {
   setopt local_options null_glob
+  # the files the pull added, like .zshenv, were not linked yet
+  __link_startup_files || __eprint "Failed to link the startup files"
   rm -rf "$ZSHSETUP_HOME/failed"
   rm -f "$XDG_CACHE_HOME/zshsetup"/output-*.zsh "$XDG_STATE_HOME/zshsetup/checked"
 
